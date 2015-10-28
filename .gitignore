@@ -15,7 +15,10 @@ hs_err_pid*
 .classpath
 .project
 .settings
+<<<<<<< HEAD
 bin
+=======
+>>>>>>> c63a60fd13ff06e9cadbdeef95ddc92544519bc1
 
 # Custom
 text_*

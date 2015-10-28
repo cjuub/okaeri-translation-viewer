@@ -6,13 +6,11 @@ import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import translation_viewer.CharacterInterpreter;
 
 @SuppressWarnings("serial")
-public class EditorTab extends JPanel implements ChangeListener {
+public class EditorTab extends JPanel {
 	private File translatedFile;
 	private TextList translatedData;
 	private StatusPanel statusPanel;
@@ -39,6 +37,7 @@ public class EditorTab extends JPanel implements ChangeListener {
 		
 		TextList originalData = new TextList(originalText, this, false);
 		translatedData = new TextList(translatedText, this, true);
+
 		originalData.setOther(translatedData);
 		translatedData.setOther(originalData);
 		JPanel dataPanel = new JPanel();
@@ -72,11 +71,4 @@ public class EditorTab extends JPanel implements ChangeListener {
 	public void setTabProgress(int translated, int total) {
 		statusPanel.setCurrentTabProgress(translated, total);
 	}
-
-	@Override
-	public void stateChanged(ChangeEvent e) {
-		translatedData.updateStatusBar();
-		System.out.println("hej");
-	}
-
 }

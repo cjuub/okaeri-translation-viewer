@@ -1,10 +1,11 @@
 package gui;
 
+
 import java.awt.BorderLayout;
+
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
-
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -13,7 +14,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
 import translation_viewer.CharacterInterpreter;
 
 @SuppressWarnings("serial")
@@ -35,9 +35,10 @@ public class TranslationViewerGUI extends JFrame {
 		String[] orgDir = new File(baseDir + "/text_original").list();
 		String[] transDir = new File(baseDir + "/text_translated").list();
 		
+
 		StatusPanel statusPanel = new StatusPanel();
 		add(statusPanel, BorderLayout.SOUTH);
-		
+
 		JTabbedPane tabs = new JTabbedPane();
 		
 		for (int i = 0; i < orgDir.length; i++) {
