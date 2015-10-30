@@ -59,6 +59,8 @@ public class EditorTab extends JPanel {
 		translatedData.loadFile(translatedFile);
 		
 		originalData.syncModelNewlines();
+		
+		translatedData.initializeIsTranslated();
 	}
 
 	public File getTranslatedFile() {
@@ -69,7 +71,16 @@ public class EditorTab extends JPanel {
 		return translatedData;
 	}
 	
-	public void setTabProgress(int translated, int total) {
-		statusPanel.setCurrentTabProgress(translated, total);
+	public void setTabProgress() {
+		statusPanel.setCurrentTabProgress(getNbrTranslated(), getNbrLines());
+		statusPanel.setTabTotalProgress();
+	}
+
+	public int getNbrTranslated() {
+		return translatedData.getNbrTranslated();
+	}
+
+	public int getNbrLines() {
+		return translatedData.getNbrLines();
 	}
 }

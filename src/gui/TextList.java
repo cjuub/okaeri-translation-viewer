@@ -31,6 +31,7 @@ public class TextList extends JList<String> implements ListSelectionListener {
 	}
 
 	private CellRenderer cellRenderer;
+	private int nbrTranslated;
 
 	public TextList(TextEditArea tea, EditorTab tab, boolean isRenderColors) {
 		this.tea = tea;
@@ -38,6 +39,7 @@ public class TextList extends JList<String> implements ListSelectionListener {
 		this.isRenderColors = isRenderColors;
 		
 		isTranslated = new HashMap<Integer, Boolean>();
+		nbrTranslated = 0;
 		
 		addListSelectionListener(this);
 		
@@ -76,16 +78,25 @@ public class TextList extends JList<String> implements ListSelectionListener {
 		setSelectedIndex(index);
 	}
 	
-	public void updateStatusBar() {
-		int translated = 0;
-		int total = isTranslated.size();
+	public void updateNbrTranslated() {
+		nbrTranslated = 0;
 		for (Boolean b : isTranslated.values()) {
 			if (b) {
-				translated++;
+				nbrTranslated++;
 			}
 		}
-		
-		tab.setTabProgress(translated, total);
+	}
+	
+	public void initializeIsTranslated() {
+		for (int i = 0; i < listModel.size(); i++) {
+			String value = listModel.get(i);
+			if (isInJapanese(i, value) && (!value.equals(other.listModel.get(i)) || !other.listModel.get(i).equals(""))) {
+				isTranslated.put(i, false);
+			} else {
+				isTranslated.put(i, true);
+				nbrTranslated++;
+			}
+		}
 	}
 
 	@Override
@@ -93,7 +104,8 @@ public class TextList extends JList<String> implements ListSelectionListener {
 		tea.setFields(getSelectedValue().toString());
 		tea.updateScreen();
 		other.update(getSelectedIndices()[0]);
-		updateStatusBar();
+		updateNbrTranslated();
+		tab.setTabProgress();
 	}
 	
 	public void syncModelNewlines(int index) {
@@ -186,5 +198,13 @@ public class TextList extends JList<String> implements ListSelectionListener {
 			contents.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 			return contents;
 		}
+	}
+
+	public int getNbrTranslated() {
+		return nbrTranslated;
+	}
+
+	public int getNbrLines() {
+		return isTranslated.size();
 	}
 }
