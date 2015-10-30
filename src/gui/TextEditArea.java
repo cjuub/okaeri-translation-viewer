@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -61,7 +62,11 @@ public class TextEditArea extends JPanel {
 	}
 	
 	public void updateTextList() {
-		DefaultListModel<String> listModel = textList.getListModel();
+		if (textList == null) {
+			return;
+		}
+		
+		DefaultListModel<String> listModel = textList.getListModel();			
 		String text = "";
 		for (TextEditField tef : fields) {
 			if (!tef.getText().equals("")) {
@@ -100,6 +105,13 @@ public class TextEditArea extends JPanel {
 			
 			updateScreen();
 			updateTextList();
+		}
+	}
+
+	public void setEditable(boolean b) {
+		for (JTextField f : fields) {
+			f.setEditable(b);
+			f.setBackground(Color.WHITE);
 		}
 	}
 }

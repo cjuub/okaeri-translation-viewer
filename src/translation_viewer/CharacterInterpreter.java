@@ -73,13 +73,16 @@ public class CharacterInterpreter {
 		}
 	}
 	
-	public BufferedImage getStringGraphics(String s) {
+	public BufferedImage getStringGraphics(String s) throws IllegalArgumentException {
 		List<BufferedImage> res = new ArrayList<BufferedImage>();
 		int padding = 0;
 		int totWidth = 0;
 		
 		if (!s.equals("")) {
 			for (int i = 0; i < s.length(); i++) {
+				if (charMap.get(String.valueOf(s.charAt(i))) == null) {
+					throw new IllegalArgumentException();
+				}
 				BufferedImage c = charMap.get(String.valueOf(s.charAt(i))).getImg();
 				res.add(c);
 				totWidth += c.getWidth() + padding;

@@ -30,7 +30,13 @@ public class ScreenView extends JPanel {
         int yOff = 0;
         for (String s : texts) {
         	s = s.replaceAll("<.*?>", "");
-        	BufferedImage textImage = ci.getStringGraphics(s);
+        	BufferedImage textImage;
+        	try {
+        		textImage = ci.getStringGraphics(s);
+        	} catch (IllegalArgumentException e) {
+        		return;
+        	}
+        	
         	int x = ((getWidth()) / 2) - ((textImage.getWidth() * scale) / 2);
         	int y = getHeight() - ((getHeight() / 8)) - texts.length * textImage.getHeight() * scale + yOff - 1;
         	int w = (int)(textImage.getWidth() * scale);

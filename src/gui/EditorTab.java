@@ -29,6 +29,7 @@ public class EditorTab extends JPanel {
 		add(screenPanel, BorderLayout.NORTH);
 		
 		TextEditArea originalText = new TextEditArea(originalScreen);
+		originalText.setEditable(false);
 		TextEditArea translatedText = new TextEditArea(translatedScreen);
 		JPanel textPanel = new JPanel();
 		textPanel.add(originalText, BorderLayout.WEST);
