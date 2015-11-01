@@ -3,10 +3,12 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -65,8 +67,6 @@ public class TranslationViewerGUI extends JFrame {
 		
 		tabs.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-//				EditorTab tab = (EditorTab) tabs.getSelectedComponent();
-//				tab.getTranslatedData().updateNbrTranslated();
 				statusPanel.update(tabs.getSelectedIndex());
 			}
 		});
@@ -79,6 +79,14 @@ public class TranslationViewerGUI extends JFrame {
 		SaveItem saveItem = new SaveItem("Save", tabs);
 		saveItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		fileMenu.add(saveItem);
+		
+		SearchItem searchItem = new SearchItem("Search", tabs);
+		searchItem.setAccelerator(KeyStroke.getKeyStroke('F', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		fileMenu.add(searchItem);
+		
+		SearchAgainItem searchAgainItem = new SearchAgainItem("Search again", searchItem);
+		searchAgainItem.setAccelerator(KeyStroke.getKeyStroke('D', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		fileMenu.add(searchAgainItem);
 		
 		menuBar.add(fileMenu);
 		setJMenuBar(menuBar);

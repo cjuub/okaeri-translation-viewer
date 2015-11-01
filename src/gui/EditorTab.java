@@ -14,6 +14,7 @@ public class EditorTab extends JPanel {
 	private File translatedFile;
 	private TextList translatedData;
 	private StatusPanel statusPanel;
+	private TextList originalData;
 	
 	public EditorTab(CharacterInterpreter ci, File originalFile, File translatedFile, StatusPanel statusPanel) {
 		this.translatedFile = translatedFile;
@@ -36,7 +37,7 @@ public class EditorTab extends JPanel {
 		textPanel.add(translatedText, BorderLayout.EAST);
 		add(textPanel, BorderLayout.CENTER);
 		
-		TextList originalData = new TextList(originalText, this, false);
+		originalData = new TextList(originalText, this, false);
 		translatedData = new TextList(translatedText, this, true);
 
 		originalData.setOther(translatedData);
@@ -82,5 +83,9 @@ public class EditorTab extends JPanel {
 
 	public int getNbrLines() {
 		return translatedData.getNbrLines();
+	}
+
+	public TextList getOriginalData() {
+		return originalData;
 	}
 }
