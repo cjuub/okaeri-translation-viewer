@@ -13,10 +13,11 @@ import translation_viewer.CharacterInterpreter;
 public class ScreenView extends JPanel {
 	private CharacterInterpreter ci;
 	private String[] texts;
-	private int scale = 3;
+	private int scale;
 	
-	public ScreenView(CharacterInterpreter ci) {
+	public ScreenView(CharacterInterpreter ci, int scale) {
 		this.ci = ci;
+		this.scale = scale;
 		
 		texts = new String[0];
 		

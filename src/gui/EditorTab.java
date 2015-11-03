@@ -16,14 +16,14 @@ public class EditorTab extends JPanel {
 	private StatusPanel statusPanel;
 	private TextList originalData;
 	
-	public EditorTab(CharacterInterpreter ci, File originalFile, File translatedFile, StatusPanel statusPanel) {
+	public EditorTab(CharacterInterpreter ci, File originalFile, File translatedFile, StatusPanel statusPanel, int scale) {
 		this.translatedFile = translatedFile;
 		this.statusPanel = statusPanel;
 		
 		setLayout(new BorderLayout());
 		
-		ScreenView originalScreen = new ScreenView(ci);
-		ScreenView translatedScreen = new ScreenView(ci);
+		ScreenView originalScreen = new ScreenView(ci, scale);
+		ScreenView translatedScreen = new ScreenView(ci, scale);
 		JPanel screenPanel = new JPanel();
 		screenPanel.add(originalScreen, BorderLayout.WEST);
 		screenPanel.add(translatedScreen, BorderLayout.EAST);

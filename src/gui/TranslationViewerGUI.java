@@ -21,7 +21,7 @@ import translation_viewer.CharacterInterpreter;
 
 @SuppressWarnings("serial")
 public class TranslationViewerGUI extends JFrame {
-	public TranslationViewerGUI(CharacterInterpreter ci) {
+	public TranslationViewerGUI(CharacterInterpreter ci, int scale) {
 		super("okaeri-translation-viewer");
 		
 		JFileChooser fc = new JFileChooser(".");
@@ -56,7 +56,7 @@ public class TranslationViewerGUI extends JFrame {
 			
 			File originalFile = new File(baseDir + "/text_original/" + orgDir[i]);
 			File translatedFile = new File(baseDir + "/text_translated/" + transDir[j]);
-			EditorTab editorTab = new EditorTab(ci, originalFile, translatedFile, statusPanel);
+			EditorTab editorTab = new EditorTab(ci, originalFile, translatedFile, statusPanel, scale);
 			tabs.addTab(orgDir[i].substring(6, orgDir[i].length() - 4), null, editorTab, null);
 			tabList.add(editorTab);
 		}
@@ -99,6 +99,12 @@ public class TranslationViewerGUI extends JFrame {
 		ci.loadFontInfoNormal("normal.xml", "normal_white.png", 11);
 		ci.loadFontInfoLarge("large.xml", "large_white.png", 15);
 		ci.loadFontInfoSmall("small.xml", "small_white.png", 9);
-		new TranslationViewerGUI(ci);
+		
+		int scale = 3;
+		if (args.length != 0) {
+			scale = Integer.parseInt(args[0]);
+		}
+		
+		new TranslationViewerGUI(ci, scale);
 	}
 }
