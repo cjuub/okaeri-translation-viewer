@@ -15,24 +15,63 @@ import javax.imageio.ImageIO;
 
 public class CharacterInterpreter {
 	private HashMap<String, Character> charMap;
+	private HashMap<String, Character> charMapLarge;
+	private HashMap<String, Character> charMapSmall;
 	private BufferedImage fontImg;
+	private BufferedImage fontImgLarge;
+	private BufferedImage fontImgSmall;
 	private int charSize;
+	private int charSizeLarge;
+	private int charSizeSmall;
 	private int color;
+	private int size;
 	
 	public CharacterInterpreter() {
 		charMap = new HashMap<String, Character>();
+		charMapLarge = new HashMap<String, Character>();
+		charMapSmall = new HashMap<String, Character>();
 	}
 	
-	public void loadFontInfo(String infoFilename, String imgFilename, int charSize) {
+	public void loadFontInfoNormal(String infoFilename, String imgFilename, int charSize) {
 		this.charSize = charSize;
 		this.color = 0xFFf8f8f8;
-		
+
 		try {
 			fontImg = ImageIO.read(new File(imgFilename));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		loadFontInfo(infoFilename, imgFilename, charSize, fontImg, charMap);
+	}
+	
+	public void loadFontInfoLarge(String infoFilename, String imgFilename, int charSize) {
+		this.charSizeLarge = charSize;
+		this.color = 0xFFf8f8f8;
+
+		try {
+			fontImgLarge = ImageIO.read(new File(imgFilename));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		loadFontInfo(infoFilename, imgFilename, charSize, fontImgLarge, charMapLarge);
+	}
+	
+	public void loadFontInfoSmall(String infoFilename, String imgFilename, int charSize) {
+		this.charSizeSmall = charSize;
+		this.color = 0xFFf8f8f8;
+
+		try {
+			fontImgSmall = ImageIO.read(new File(imgFilename));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		loadFontInfo(infoFilename, imgFilename, charSize, fontImgSmall, charMapSmall);
+	}
+	
+	private void loadFontInfo(String infoFilename, String imgFilename, int charSize, BufferedImage fontImg, HashMap<String, Character> charMap) {
 		InputStreamReader isr = null;
 		BufferedReader reader = null;
 		try {
@@ -59,7 +98,7 @@ public class CharacterInterpreter {
 				int x = 2 + (((index * (charSize + 2)) + (index / 16) * 2) % fontImg.getWidth());
 				int y = 2 + (((index * (charSize + 2)) + (index / 16) * 2) / fontImg.getWidth()) * (charSize + 2);
 				
-				BufferedImage img = createCharacterGraphics(x, y, width);
+				BufferedImage img = createCharacterGraphics(x, y, width, charSize, fontImg);
 				Character c = new Character(x, y, width, val, img);
 				charMap.put(val, c);
 			}
@@ -80,34 +119,80 @@ public class CharacterInterpreter {
 		int padding = 0;
 		int totWidth = 0;
 		
+		HashMap<String, Character> charMap = null;
+		int charSize = 0;
+		if (size == 0) {
+			charMap = this.charMap;
+			charSize = this.charSize;
+		} else if (size == 1) {
+			charMap = charMapLarge;
+			charSize = charSizeLarge;
+		} else if (size == 2) {
+			charMap = charMapSmall;
+			charSize = charSizeSmall;
+		}
+		
+		boolean hasLarge = false;
+		boolean hasNormal = false;
+		
 		if (!s.equals("")) {
 			for (int i = 0; i < s.length(); i++) {
 				if (s.substring(i).startsWith("<PURPLE>")) {
 					color = 0xFF6060f8;
-					i += 8;
+					i += 7;
+					continue;
 				} else if (s.substring(i).startsWith("<RED>")) {
 					color = 0xFFf85050;
-					i += 5;
+					i += 4;
+					continue;
 				} else if (s.substring(i).startsWith("<ORANGE>")) {
 					color = 0xFFf8a030;
-					i += 8;
+					i += 7;
+					continue;
 				} else if (s.substring(i).startsWith("<PINK>")) {
 					color = 0xFFf830f8;
-					i += 6;
+					i += 5;
+					continue;
 				} else if (s.substring(i).startsWith("<GREEN>")) {
 					color = 0xFF40f840;
-					i += 7;
+					i += 6;
+					continue;
 				} else if (s.substring(i).startsWith("<BLUE>")) {
 					color = 0xFF20f8f8;
-					i += 6;
+					i += 5;
+					continue;
 				} else if (s.substring(i).startsWith("<YELLOW>")) {
 					color = 0xFFf8f820;
-					i += 8;
+					i += 7;
+					continue;
 				} else if (s.substring(i).startsWith("<WHITE>")) {
 					color = 0xFFf8f8f8;
-					i += 7;
+					i += 6;
+					continue;
 				}
 				
+				if (s.substring(i).startsWith("<BIG>")) {
+					i += 4;
+					size = 1;
+					charMap = charMapLarge;
+					charSize = charSizeLarge;
+					hasLarge = true;
+					continue;
+				} else if (s.substring(i).startsWith("<SIZENORMAL>")) {
+					i += 11;
+					size = 0;
+					charMap = this.charMap;
+					charSize = this.charSize;
+					hasNormal = true;
+					continue;
+				} else if (s.substring(i).startsWith("<SMALL>")) {
+					i += 6;
+					size = 2;
+					charMap = charMapSmall;
+					charSize = charSizeSmall;
+					continue;
+				}
+
 				if (charMap.get(String.valueOf(s.charAt(i))) == null) {
 					throw new IllegalArgumentException();
 				}
@@ -133,12 +218,34 @@ public class CharacterInterpreter {
 			totWidth += 1 + padding;
 		}
 		
+		if (hasLarge) {
+			charSize = charSizeLarge;
+		} else if (hasNormal) {
+			charSize = this.charSize;
+		}
+		
 		BufferedImage all = new BufferedImage(totWidth, charSize + 2, BufferedImage.TYPE_INT_ARGB);
         int nextX = 0;
         int nextY = 0;
         Graphics g = all.getGraphics();
 		for (BufferedImage bi : res) {
-        	g.drawImage(bi, nextX, nextY, bi.getWidth(), bi.getHeight(), null);
+			if (hasLarge) { 
+				if (bi.getHeight() == 13) { // 13 is height of normal size
+					g.drawImage(bi, nextX, nextY + 4, bi.getWidth(), bi.getHeight(), null);
+				} else if (bi.getHeight() == 11) {
+					g.drawImage(bi, nextX, nextY + 5, bi.getWidth(), bi.getHeight(), null);
+				} else {
+					g.drawImage(bi, nextX, nextY, bi.getWidth(), bi.getHeight(), null);
+				}
+			} else if (hasNormal) {
+				if (bi.getHeight() == 11) {
+					g.drawImage(bi, nextX, nextY + 2, bi.getWidth(), bi.getHeight(), null);
+				} else {
+					g.drawImage(bi, nextX, nextY, bi.getWidth(), bi.getHeight(), null);
+				}
+			} else {
+				g.drawImage(bi, nextX, nextY, bi.getWidth(), bi.getHeight(), null);
+			}
         	nextX += bi.getWidth() + padding;
         }
 		
@@ -151,7 +258,11 @@ public class CharacterInterpreter {
 		this.color = color;
 	}
 	
-	public BufferedImage createCharacterGraphics(int x, int y, int width) {
+	public void setSize(int size) {
+		this.size = size;
+	}
+	
+	public BufferedImage createCharacterGraphics(int x, int y, int width, int charSize, BufferedImage fontImg) {
 		BufferedImage res = fontImg.getSubimage(x, y, width, charSize);
 		
 		BufferedImage borderImg = new BufferedImage(res.getWidth() + 2, res.getHeight() + 2, res.getType());

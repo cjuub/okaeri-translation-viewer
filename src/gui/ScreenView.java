@@ -29,6 +29,7 @@ public class ScreenView extends JPanel {
         super.paintComponent(g);
         int yOff = 0;
         ci.setColor(0xFFf8f8f8);
+        ci.setSize(0);
         
         for (String line : texts) {
         	line = line.replaceAll("<FakeN>", "");
@@ -42,9 +43,9 @@ public class ScreenView extends JPanel {
 			line = line.replace("<SLOW4>", "");
 			line = line.replace("<SLOW5>", "");
 			
-			line = line.replace("<SMALL>", "");
-			line = line.replace("<SIZENORMAL>", "");
-			line = line.replace("<BIG>", "");
+//			line = line.replace("<SMALL>", "");
+//			line = line.replace("<SIZENORMAL>", "");
+//			line = line.replace("<BIG>", "");
 			
 			line = line.replace("<PAUSE1>", "");
 			line = line.replace("<PAUSE2>", "");

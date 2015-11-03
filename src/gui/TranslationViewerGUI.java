@@ -96,7 +96,9 @@ public class TranslationViewerGUI extends JFrame {
 	
 	public static void main(String[] args) throws IOException {
 		CharacterInterpreter ci = new CharacterInterpreter();
-		ci.loadFontInfo("normal.xml", "normal_white.png", 11);
+		ci.loadFontInfoNormal("normal.xml", "normal_white.png", 11);
+		ci.loadFontInfoLarge("large.xml", "large_white.png", 15);
+		ci.loadFontInfoSmall("small.xml", "small_white.png", 9);
 		new TranslationViewerGUI(ci);
 	}
 }
