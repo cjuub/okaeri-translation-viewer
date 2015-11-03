@@ -3,12 +3,10 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
