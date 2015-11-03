@@ -118,22 +118,24 @@ public class CharacterInterpreter {
 		List<BufferedImage> res = new ArrayList<BufferedImage>();
 		int padding = 0;
 		int totWidth = 0;
+		boolean hasLarge = false;
+		boolean hasNormal = false;
 		
 		HashMap<String, Character> charMap = null;
 		int charSize = 0;
 		if (size == 0) {
 			charMap = this.charMap;
 			charSize = this.charSize;
+			hasNormal = true;
 		} else if (size == 1) {
 			charMap = charMapLarge;
 			charSize = charSizeLarge;
+			hasLarge = true;
 		} else if (size == 2) {
 			charMap = charMapSmall;
 			charSize = charSizeSmall;
 		}
 		
-		boolean hasLarge = false;
-		boolean hasNormal = false;
 		
 		if (!s.equals("")) {
 			for (int i = 0; i < s.length(); i++) {
@@ -222,7 +224,12 @@ public class CharacterInterpreter {
 			charSize = charSizeLarge;
 		} else if (hasNormal) {
 			charSize = this.charSize;
+		} else {
+			charSize = charSizeSmall;
 		}
+		
+//		System.out.println(charSize);
+//		System.out.println();
 		
 		BufferedImage all = new BufferedImage(totWidth, charSize + 2, BufferedImage.TYPE_INT_ARGB);
         int nextX = 0;

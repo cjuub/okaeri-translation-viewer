@@ -42,11 +42,7 @@ public class ScreenView extends JPanel {
 			line = line.replace("<SLOW3>", "");
 			line = line.replace("<SLOW4>", "");
 			line = line.replace("<SLOW5>", "");
-			
-//			line = line.replace("<SMALL>", "");
-//			line = line.replace("<SIZENORMAL>", "");
-//			line = line.replace("<BIG>", "");
-			
+
 			line = line.replace("<PAUSE1>", "");
 			line = line.replace("<PAUSE2>", "");
 			line = line.replace("<PAUSE3>", "");
@@ -70,7 +66,7 @@ public class ScreenView extends JPanel {
         	}
         	
         	int x = ((getWidth()) / 2) - ((textImage.getWidth() * scale) / 2);
-        	int y = getHeight() - ((getHeight() / 8)) - texts.length * textImage.getHeight() * scale + yOff - 1;
+        	int y = getHeight() - ((getHeight() / 12)) - texts.length * 17 * scale + yOff - 1;
         	int w = (int)(textImage.getWidth() * scale);
         	int h = (int)(textImage.getHeight() * scale);
         	
