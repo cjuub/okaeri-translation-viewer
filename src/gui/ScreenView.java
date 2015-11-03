@@ -28,11 +28,42 @@ public class ScreenView extends JPanel {
 	protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int yOff = 0;
-        for (String s : texts) {
-        	s = s.replaceAll("<.*?>", "");
+        ci.setColor(0xFFf8f8f8);
+        
+        for (String line : texts) {
+        	line = line.replaceAll("<FakeN>", "");
+        	
+			line = line.replace("<FAST2>", "");
+			line = line.replace("<FAST1>", "");
+			line = line.replace("<SPEEDNORMAL>", "");
+			line = line.replace("<SLOW1>", "");
+			line = line.replace("<SLOW2>", "");
+			line = line.replace("<SLOW3>", "");
+			line = line.replace("<SLOW4>", "");
+			line = line.replace("<SLOW5>", "");
+			
+			line = line.replace("<SMALL>", "");
+			line = line.replace("<SIZENORMAL>", "");
+			line = line.replace("<BIG>", "");
+			
+			line = line.replace("<PAUSE1>", "");
+			line = line.replace("<PAUSE2>", "");
+			line = line.replace("<PAUSE3>", "");
+			line = line.replace("<PAUSE4>", "");
+			line = line.replace("<PAUSE5>", "");
+			line = line.replace("<PAUSE6>", "");
+			line = line.replace("<PAUSE7>", "");
+			line = line.replace("<PAUSE8>", "");
+			line = line.replace("<PAUSE9>", "");
+			
+			line = line.replace("<NOSHAKE>", "");
+			line = line.replace("<SHAKE1>", "");
+			line = line.replace("<SHAKE2>", "");
+			line = line.replace("<SHAKE3>", "");
+        	
         	BufferedImage textImage;
         	try {
-        		textImage = ci.getStringGraphics(s);
+        		textImage = ci.getStringGraphics(line);
         	} catch (IllegalArgumentException e) {
         		return;
         	}

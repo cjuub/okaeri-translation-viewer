@@ -17,6 +17,7 @@ public class CharacterInterpreter {
 	private HashMap<String, Character> charMap;
 	private BufferedImage fontImg;
 	private int charSize;
+	private int color;
 	
 	public CharacterInterpreter() {
 		charMap = new HashMap<String, Character>();
@@ -24,7 +25,8 @@ public class CharacterInterpreter {
 	
 	public void loadFontInfo(String infoFilename, String imgFilename, int charSize) {
 		this.charSize = charSize;
-
+		this.color = 0xFFf8f8f8;
+		
 		try {
 			fontImg = ImageIO.read(new File(imgFilename));
 		} catch (IOException e) {
@@ -80,12 +82,52 @@ public class CharacterInterpreter {
 		
 		if (!s.equals("")) {
 			for (int i = 0; i < s.length(); i++) {
+				if (s.substring(i).startsWith("<PURPLE>")) {
+					color = 0xFF6060f8;
+					i += 8;
+				} else if (s.substring(i).startsWith("<RED>")) {
+					color = 0xFFf85050;
+					i += 5;
+				} else if (s.substring(i).startsWith("<ORANGE>")) {
+					color = 0xFFf8a030;
+					i += 8;
+				} else if (s.substring(i).startsWith("<PINK>")) {
+					color = 0xFFf830f8;
+					i += 6;
+				} else if (s.substring(i).startsWith("<GREEN>")) {
+					color = 0xFF40f840;
+					i += 7;
+				} else if (s.substring(i).startsWith("<BLUE>")) {
+					color = 0xFF20f8f8;
+					i += 6;
+				} else if (s.substring(i).startsWith("<YELLOW>")) {
+					color = 0xFFf8f820;
+					i += 8;
+				} else if (s.substring(i).startsWith("<WHITE>")) {
+					color = 0xFFf8f8f8;
+					i += 7;
+				}
+				
 				if (charMap.get(String.valueOf(s.charAt(i))) == null) {
 					throw new IllegalArgumentException();
 				}
+				
 				BufferedImage c = charMap.get(String.valueOf(s.charAt(i))).getImg();
-				res.add(c);
-				totWidth += c.getWidth() + padding;
+				
+				BufferedImage tmp = new BufferedImage(c.getWidth(), c.getHeight(), c.getType());
+				
+				for (int y = 0; y < tmp.getHeight(); ++y) {
+					for (int x = 0; x < tmp.getWidth(); ++x) {
+						if (c.getRGB(x, y) == 0xFFFFFFFF) {
+							tmp.setRGB(x, y, color);
+						} else {
+							tmp.setRGB(x, y, c.getRGB(x, y));
+						}
+					}
+				}
+				
+				res.add(tmp);
+				totWidth += tmp.getWidth() + padding;
 			}
 		} else {
 			totWidth += 1 + padding;
@@ -103,6 +145,10 @@ public class CharacterInterpreter {
 		g.dispose();
 		
 		return all;
+	}
+	
+	public void setColor(int color) {
+		this.color = color;
 	}
 	
 	public BufferedImage createCharacterGraphics(int x, int y, int width) {
