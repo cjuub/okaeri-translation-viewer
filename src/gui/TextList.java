@@ -144,7 +144,7 @@ public class TextList extends JList<String> implements ListSelectionListener {
 	}
 	
 	private boolean isInJapanese(int index, String line) {
-		String ok = "〜「」『』【】＜＞☆★○●◇◆□△▲▽▼※→←↑↓⇒⇔♪①②③④⑤⑥⑦⑧⑨⑩×％＆";
+		String ok = "〜「」『』【】＜＞☆★○●◇◆□△▲▽▼※→←↑↓⇒⇔♪①②③④⑤⑥⑦⑧⑨⑩×％＆＃";
 		int maxChar = 0;
 		
 		for (int i = 0; i < line.length(); i++) {

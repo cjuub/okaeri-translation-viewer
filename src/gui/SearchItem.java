@@ -47,7 +47,12 @@ public class SearchItem extends JMenuItem implements ActionListener {
 			DefaultListModel<String> orgModel = tab.getOriginalData().getListModel();
 			
 			for (; j < transModel.size(); j++) {
-				if (transModel.getElementAt(j).contains(str) || orgModel.getElementAt(j).contains(str)) {
+				String transStr = transModel.getElementAt(j).replace("<N>", " ");
+				transStr = transStr.replaceAll("<.*?>", "");
+				String orgStr = orgModel.getElementAt(j).replace("<N>", "");
+				orgStr = orgStr.replaceAll("<.*?>", "");
+				System.out.println(transStr);
+				if (transStr.contains(str) || orgStr.contains(str)) {
 					tabs.setSelectedIndex(i);
 					tab.getTranslatedData().setSelectedIndex(j);
 					tab.getTranslatedData().ensureIndexIsVisible(tab.getTranslatedData().getSelectedIndex());

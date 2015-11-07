@@ -227,10 +227,7 @@ public class CharacterInterpreter {
 		} else {
 			charSize = charSizeSmall;
 		}
-		
-//		System.out.println(charSize);
-//		System.out.println();
-		
+
 		BufferedImage all = new BufferedImage(totWidth, charSize + 2, BufferedImage.TYPE_INT_ARGB);
         int nextX = 0;
         int nextY = 0;
