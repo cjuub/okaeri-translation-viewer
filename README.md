@@ -8,7 +8,7 @@ This is a GUI used to assist the dialog translation of [this](https://github.com
 * Easy switching between the different files.
 * Display progress of how many lines are translated for each file.
 * Color indication for which lines have been translated and not.
-* Clean view of the text without long escape sequences (e.g. <1a0680010003>).
+* Human readable escape sequences (e.g. <1a0680010003> becomes <BIG>).
 * Search function spanning all the files.
 * Multi-platform.
 
@@ -31,14 +31,14 @@ Do the following:
 3. Click *Export to image* and save them as *large_white.png*, *normal_white.png* and *small_white.png* in the repository root.
 
 ##### Building
-In the *src* folder run:
+In the project root run:
 
-`javac ./gui/TranslationViewerGUI.java`
+`javac -cp src src/*/*.java`
 
 ##### Running
-Then run the GUI in the repository root with:
+Then run the GUI in the project root with:
 
-`java -cp src gui.TranslationViewerGUI arg`
+`java -cp .:src gui.TranslationViewerGUI arg`
 
 Where *arg* is replaced by the scale of the live screen views. Default is *3*, which requires a 1440p resolution to fit. Choose *2* or *1* to run it on smaller resolutions.
 
