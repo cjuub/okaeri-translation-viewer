@@ -8,7 +8,7 @@ This is a GUI used to assist the dialog translation of [this](https://github.com
 * Easy switching between the different files.
 * Display progress of how many lines are translated for each file.
 * Color indication for which lines have been translated and not.
-* Human readable escape sequences (e.g. <1a0680010003> becomes <BIG>).
+* Human readable escape sequences (e.g. `<1a0680010003>` becomes `<BIG>`).
 * Search function spanning all the files.
 * Multi-platform.
 
