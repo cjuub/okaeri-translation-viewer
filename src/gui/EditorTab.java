@@ -29,9 +29,9 @@ public class EditorTab extends JPanel {
 		screenPanel.add(translatedScreen, BorderLayout.EAST);
 		add(screenPanel, BorderLayout.NORTH);
 		
-		TextEditArea originalText = new TextEditArea(originalScreen);
+		TextEditArea originalText = new TextEditArea(originalScreen, scale);
 		originalText.setEditable(false);
-		TextEditArea translatedText = new TextEditArea(translatedScreen);
+		TextEditArea translatedText = new TextEditArea(translatedScreen, scale);
 		JPanel textPanel = new JPanel();
 		textPanel.add(originalText, BorderLayout.WEST);
 		textPanel.add(translatedText, BorderLayout.EAST);
@@ -46,9 +46,10 @@ public class EditorTab extends JPanel {
 		JScrollPane scrollOriginal = new JScrollPane();
 		JScrollPane scrollTranslated = new JScrollPane();
 		scrollOriginal.setViewportView(originalData);
-		scrollOriginal.setPreferredSize(new Dimension(770, 300));
+		// System.out.println((int)(770 / (double)3 / scale));
+		scrollOriginal.setPreferredSize(new Dimension((int)(770 / ((double)3 / scale)), (int)(300 / ((double)3 / scale))));
 		scrollTranslated.setViewportView(translatedData);
-		scrollTranslated.setPreferredSize(new Dimension(770, 300));
+		scrollTranslated.setPreferredSize(new Dimension((int)(770 / ((double)3 / scale)), (int)(300 / ((double)3 / scale))));
 		scrollOriginal.getVerticalScrollBar().setModel(scrollTranslated.getVerticalScrollBar().getModel());
 		dataPanel.add(scrollOriginal, BorderLayout.WEST);
 		dataPanel.add(scrollTranslated, BorderLayout.EAST);

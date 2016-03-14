@@ -18,13 +18,13 @@ public class TextEditArea extends JPanel {
 	private List<TextEditField> fields;
 	private TextList textList;
 	
-	public TextEditArea(ScreenView screen) {
+	public TextEditArea(ScreenView screen, int scale) {
 		this.screen = screen;
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		fields = new ArrayList<TextEditField>();
 		for (int i = 0; i < 7; i++) {
-			TextEditField field = new TextEditField();
+			TextEditField field = new TextEditField(scale);
 			fields.add(field);
 			add(field);
 		}
@@ -124,9 +124,23 @@ public class TextEditArea extends JPanel {
 	
 	private class TextEditField extends JTextField implements KeyListener {
 		
-		public TextEditField() {
-			setColumns(45);
-			setFont(new Font(getFont().getFontName(), Font.PLAIN, 18));
+		public TextEditField(int scale) {
+
+			int fontSize = 18;
+			int columns = 45;
+			switch (scale) {
+			case 2:
+				columns = 46;
+				fontSize = 12;
+				break;
+			case 1:
+				columns = 23;
+				fontSize = 12;
+				break;
+			}
+
+			setColumns(columns);
+			setFont(new Font(getFont().getFontName(), Font.PLAIN, fontSize));
 			addKeyListener(this);
 		}
 
