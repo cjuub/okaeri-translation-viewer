@@ -64,6 +64,12 @@ public class EditorTab extends JPanel {
 		
 		translatedData.initializeIsTranslated();
 	}
+	
+	public void reloadTranslatedData() {
+		translatedData.loadFile(translatedFile);
+		originalData.syncModelNewlines();
+		translatedData.initializeIsTranslated();
+	}
 
 	public File getTranslatedFile() {
 		return translatedFile;

@@ -45,11 +45,14 @@ public class TextList extends JList<String> implements ListSelectionListener {
 		
 		cellRenderer = new CellRenderer();
 		setCellRenderer(cellRenderer);
-		
+
 		listModel = new DefaultListModel<String>();
+		setModel(listModel);
 	}
 	
 	public void loadFile(File file) {
+		listModel.clear();
+		
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
@@ -67,7 +70,8 @@ public class TextList extends JList<String> implements ListSelectionListener {
 				e.printStackTrace();
 			}
 		}
-		setModel(listModel);
+//		setModel(listModel);
+		repaint();
 	}
 
 	public void setOther(TextList other) {
@@ -101,9 +105,14 @@ public class TextList extends JList<String> implements ListSelectionListener {
 
 	@Override
 	public void valueChanged(ListSelectionEvent e) {
-		tea.setFields(getSelectedValue().toString());
+		if (getSelectedValue() != null) {
+			tea.setFields(getSelectedValue().toString());			
+			other.update(getSelectedIndices()[0]);
+		} else {
+			tea.setFields("");
+		}
+		
 		tea.updateScreen();
-		other.update(getSelectedIndices()[0]);
 		updateNbrTranslated();
 		tab.setTabProgress();
 	}

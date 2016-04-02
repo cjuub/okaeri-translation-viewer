@@ -3,6 +3,8 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
@@ -21,8 +24,12 @@ import translation_viewer.CharacterInterpreter;
 
 @SuppressWarnings("serial")
 public class TranslationViewerGUI extends JFrame {
+	private boolean isExternalChange;
+	
 	public TranslationViewerGUI(CharacterInterpreter ci, int scale) {
 		super("okaeri-translation-viewer");
+		
+		isExternalChange = false;
 		
 		JFileChooser fc = new JFileChooser(".");
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -89,9 +96,29 @@ public class TranslationViewerGUI extends JFrame {
 		menuBar.add(fileMenu);
 		setJMenuBar(menuBar);
 		
+		FileChangedThread fileChangedThread = new FileChangedThread(baseDir + "/text_translated", this);
+		fileChangedThread.start();
+		
+		addWindowFocusListener(new WindowAdapter() {
+		    public void windowGainedFocus(WindowEvent e) {
+		        if (isExternalChange) {
+		        	JOptionPane.showMessageDialog(null, "External change detected. Text will be reloaded.");
+	        		for (EditorTab t : tabList) {
+	        			t.reloadTranslatedData();
+	        		}
+
+	        		setExternalChange(false);
+		        }
+		    }
+		});
+		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		pack();
 		setVisible(true);
+	}
+	
+	public synchronized void setExternalChange(boolean isExternalChange) {
+		this.isExternalChange = isExternalChange;
 	}
 	
 	public static void main(String[] args) throws IOException {
