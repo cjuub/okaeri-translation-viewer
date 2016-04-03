@@ -52,6 +52,7 @@ public class TextList extends JList<String> implements ListSelectionListener {
 	
 	public void loadFile(File file) {
 		listModel.clear();
+		nbrTranslated = 0;
 		
 		BufferedReader br = null;
 		try {
